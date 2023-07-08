@@ -101,27 +101,35 @@ int changeSAD(u8 sad)
 * Retrieve the pointer to the device struct of the IC
 * @return a the device struct pointer if client was previously set or NULL in all the other cases
 */
-struct device *getDev()
+struct device *getDev(void)
 {
-	if (client != NULL)
-		return &(getClient()->dev);
-	else
-		return NULL;
-}
+	struct device *dev;
 
+	dev = device_create(fts_class, NULL, 0, NULL, "fts_521");
+	if (IS_ERR(dev)) {
+		pr_err("Failed to create device\n");
+		return NULL;
+	}
+
+	return dev;
+}
 #ifdef I2C_INTERFACE
 /**
 * Retrieve the pointer of the i2c_client struct representing the IC as i2c slave
 * @return client if it was previously set or NULL in all the other cases
 */
-struct i2c_client *getClient()
+struct i2c_client *getClient(void)
 {
-	if (client != NULL)
-		return (struct i2c_client *)client;
-	else
+	struct i2c_client *client;
+
+	client = i2c_new_client(fts_adapter, 0x35);
+	if (!client) {
+		pr_err("Failed to create i2c client\n");
 		return NULL;
+	}
+
+	return client;
 }
-#else
 /**
 * Retrieve the pointer of the spi_device struct representing the IC as spi slave
 * @return client if it was previously set or NULL in all the other cases
