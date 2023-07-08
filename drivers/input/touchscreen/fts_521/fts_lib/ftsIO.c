@@ -31,6 +31,7 @@
 #include <linux/of_gpio.h>
 
 #ifdef I2C_INTERFACE
+#include <linux/device.h>
 #include <linux/i2c.h>
 #include <linux/i2c-dev.h>
 static u16 I2CSAD;
