@@ -119,6 +119,7 @@ struct device *getDev(void)
 * Retrieve the pointer of the i2c_client struct representing the IC as i2c slave
 * @return client if it was previously set or NULL in all the other cases
 */
+
 struct i2c_client *getClient(void)
 {
   struct i2c_client *client;
@@ -138,6 +139,7 @@ struct i2c_client *getClient(void)
 
   return client;
 }
+
 /**
 * Retrieve the pointer of the spi_device struct representing the IC as spi slave
 * @return client if it was previously set or NULL in all the other cases
