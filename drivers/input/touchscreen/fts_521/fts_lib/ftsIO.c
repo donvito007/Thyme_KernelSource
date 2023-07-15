@@ -121,17 +121,24 @@ struct device *getDev(void)
 */
 struct i2c_client *getClient(void)
 {
-	struct i2c_client *client;
-	struct i2c_adapter *fts_adapter;
+  struct i2c_client *client;
+  struct i2c_adapter *fts_adapter;
 
-	client = i2c_use_client(fts_adapter, 0x35);
-	if (!client) {
-		pr_err("Failed to create i2c client\n");
-		return NULL;
-	}
+  fts_adapter = i2c_get_adapter(0);
+  if (fts_adapter == NULL) {
+    pr_err("Failed to get i2c adapter\n");
+    return NULL;
+  }
 
-	return client;
+  client = i2c_use_client(fts_adapter);
+  if (client == NULL) {
+    pr_err("Failed to create i2c client\n");
+    return NULL;
+  }
+
+  return client;
 }
+
 /**
 * Retrieve the pointer of the spi_device struct representing the IC as spi slave
 * @return client if it was previously set or NULL in all the other cases
