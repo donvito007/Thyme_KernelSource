@@ -49,7 +49,7 @@ extern struct fts_ts_info *fts_info;
 static struct mutex rw_lock;
 static u8 *buf1;
 static u8 *buf2;
-
+struct class *fts_class;
 
 /**
 * Initialize the static client variable of the fts_lib library in order to allow any i2c/spi transaction in the driver. (Must be called in the probe)
@@ -122,8 +122,9 @@ struct device *getDev(void)
 struct i2c_client *getClient(void)
 {
 	struct i2c_client *client;
+	struct i2c_adapter *fts_adapter;
 
-	client = i2c_new_client(fts_adapter, 0x35);
+	client = i2c_use_client(fts_adapter, 0x35);
 	if (!client) {
 		pr_err("Failed to create i2c client\n");
 		return NULL;
