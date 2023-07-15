@@ -131,7 +131,7 @@ struct i2c_client *getClient(void)
     return NULL;
   }
 
-  client = i2c_new_client(fts_adapter, 0x35);
+  client = i2c_new_client_old(fts_adapter, 0x35);
   if (client == NULL) {
     pr_err("Failed to create i2c client\n");
     return NULL;
